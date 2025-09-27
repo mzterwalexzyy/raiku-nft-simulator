@@ -16,7 +16,9 @@
                 <p><strong>Standard RPC:</strong> Transactions are dropped frequently during a simulated congestion (30% failure rate).</p>
                 <p><strong>Raiku Guaranteed Bot:</strong> Transactions are included reliably (0% failure rate).</p>
             </div>
-            
+            <p style="color: #F5A623; font-weight: bold;">
+                ⚠️ Note: This is a simulation. No real wallet connection or funds are required.
+            </p>
             <p>Click "Connect Wallet" to start, then set your desired mint quantity.</p>
             <p>Hope you enjoy this demonstration! We'd appreciate your feedback on any improvements!</p>
             <button id="closeModalBtn" class="modal-close-btn">Let's Go!</button>
@@ -31,6 +33,9 @@
         </header>
 
         <div class="wallet-section">
+            <p class="safety-note">
+                This connection is simulated for demonstration only. Your real wallet keys are **not** used.
+            </p>
             <button id="connectWalletBtn">Connect Wallet</button>
             <p id="walletStatus">Status: Disconnected</p>
             <p id="walletAddress"></p>
