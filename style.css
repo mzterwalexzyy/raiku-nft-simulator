@@ -1,0 +1,243 @@
+body {
+    font-family: sans-serif;
+    background-color: #121212; /* Dark background */
+    color: #e0e0e0; /* Light text */
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.container {
+    background-color: #1e1e1e;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    max-width: 1200px;
+    width: 100%;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.logo {
+    width: 60px;
+    margin-bottom: 10px;
+}
+
+h1 {
+    color: #4a90e2; /* Raiku blue/neon */
+    margin-top: 0;
+}
+
+.explanation {
+    color: #bbb;
+    font-style: italic;
+}
+
+/* Wallet and Controls */
+.wallet-section, .controls-section {
+    padding: 20px;
+    background-color: #2a2a2a;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border-left: 5px solid #4a90e2;
+}
+
+#connectWalletBtn, #runSimulationBtn {
+    padding: 12px 25px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 6px;
+    transition: background-color 0.3s;
+}
+
+#connectWalletBtn {
+    background-color: #4a90e2;
+    color: white;
+}
+
+#connectWalletBtn:hover {
+    background-color: #3b74b2;
+}
+
+#runSimulationBtn {
+    background-color: #f5a623; /* Warning color, maybe orange */
+    color: #121212;
+    font-weight: bold;
+}
+
+#runSimulationBtn:disabled {
+    background-color: #555;
+    cursor: not-allowed;
+    color: #ccc;
+}
+
+/* Results Grid */
+.results-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-top: 30px;
+}
+
+.bot-card {
+    padding: 25px;
+    border-radius: 8px;
+    border: 1px solid #333;
+}
+
+.standard-bot {
+    background-color: #333;
+}
+
+.raiku-bot {
+    background-color: #333;
+    border: 2px solid #4a90e2; /* Highlight Raiku */
+    box-shadow: 0 0 15px rgba(74, 144, 226, 0.4);
+}
+
+.bot-card h3 {
+    text-align: center;
+    border-bottom: 2px solid #555;
+    padding-bottom: 10px;
+    margin-top: 0;
+}
+
+.stat-box {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px dashed #444;
+}
+
+.stat-box:last-child {
+    border-bottom: none;
+}
+
+.success .value {
+    color: #7ed321; /* Green */
+    font-weight: bold;
+}
+
+.failed .value {
+    color: #d0021b; /* Red */
+    font-weight: bold;
+}
+
+.message {
+    text-align: center;
+    margin-top: 15px;
+    font-weight: bold;
+    min-height: 20px; /* Keep space for messages */
+}
+
+/* Final Summary Box */
+.summary-box {
+    margin-top: 40px;
+    padding: 20px;
+    text-align: center;
+    border-radius: 8px;
+    font-size: 1.2em;
+    font-weight: bold;
+    min-height: 50px;
+    background-color: #2a2a2a;
+    border: 2px solid #f5a623;
+}
+
+.summary-box.success-msg {
+    color: #7ed321;
+}
+
+.summary-box.failure-msg {
+    color: #d0021b;
+}
+
+/* Wallet Status Colors */
+#walletStatus {
+    font-weight: bold;
+    color: #d0021b; /* Default Red */
+}
+
+.connected {
+    color: #7ed321 !important; /* Green when connected */
+}
+/* Styling for the Disconnect State */
+.disconnect-btn {
+    background-color: #d0021b !important; /* Red color for 'danger' action */
+    color: white !important;
+}
+
+.disconnect-btn:hover {
+    background-color: #9b0213 !important;
+}
+/* --- WELCOME MODAL STYLING --- */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 100; /* Sit on top of everything */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0, 0, 0, 0.8); /* Black w/ opacity */
+}
+
+.modal-content {
+    background-color: #1e1e1e; /* Match main container background */
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 30px;
+    border: 2px solid #4a90e2; /* Raiku primary color border */
+    border-radius: 12px;
+    width: 80%; /* Width of the box */
+    max-width: 600px;
+    box-shadow: 0 0 20px rgba(74, 144, 226, 0.5);
+    text-align: center;
+}
+
+.modal-content h2 {
+    color: #4a90e2;
+    margin-bottom: 20px;
+}
+
+.modal-content p {
+    margin-bottom: 15px;
+    line-height: 1.5;
+}
+
+.close-btn {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    line-height: 0.5; /* Adjust positioning */
+}
+
+.close-btn:hover,
+.close-btn:focus {
+    color: #e0e0e0;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#modalCloseButton {
+    background-color: #f5a623;
+    color: #121212;
+    border: none;
+    padding: 10px 20px;
+    margin-top: 20px;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#modalCloseButton:hover {
+    background-color: #cc8400;
+}

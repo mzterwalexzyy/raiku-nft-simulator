@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Raiku Guaranteed Mint Simulator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="welcomeModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2>Welcome to the Raiku Power Simulation!</h2>
+            <p>You're about to test out the core power of Raiku: **Guaranteed Transaction Execution** on a congested network.</p>
+            <p>We are simulating a high-demand NFT mint. Watch the Raiku Bot consistently succeed while the Standard RPC Bot fails due to network congestion (30% drop rate).</p>
+            <p>We hope you enjoy this demo and would greatly appreciate your feedback on any potential improvements!</p>
+            <button id="modalCloseButton">Start Simulation</button>
+        </div>
+    </div>
+    <div class="container">
+        <header>
+            <img src="raiku_logo.jpg" alt="Raiku Logo" class="logo"> 
+            <h1>Guaranteed NFT Mint Simulator 🐉</h1>
+            <p>Showcasing Raiku's Guaranteed Execution vs. Standard RPC under congestion.</p>
+        </header>
+
+        <div class="wallet-section">
+            <button id="connectWalletBtn">Connect Wallet</button>
+            <p id="walletStatus">Status: Disconnected</p>
+            <p id="walletAddress"></p>
+        </div>
+        
+        <div class="controls-section">
+            <h2>The Challenge: Mint $<span id="mintQuantityDisplay">10</span> NFTs</h2>
+        
+            <label for="mintQuantityInput">Mint Quantity (1 - 1000):</label>
+            <input type="number" id="mintQuantityInput" min="1" max="1000" value="10" placeholder="Enter number of mints">
+        
+            <p class="explanation">We run two bots simultaneously during massive network congestion (simulated by a 30% failure rate).</p>
+            <button id="runSimulationBtn" disabled>Run Mint Simulation</button>
+        </div>
+        
+        <div class="results-grid">
+            <div class="bot-card standard-bot">
+                <h3>Standard RPC Bot</h3>
+                <p class="description">Typical transaction submission: high failure rate during congestion.</p>
+                <div class="stat-box">
+                    <span class="label">Mints Submitted:</span>
+                    <span class="value" id="standardSubmitted">0</span>
+                </div>
+                <div class="stat-box success">
+                    <span class="label">Mints **SUCCESSFUL**:</span>
+                    <span class="value" id="standardSuccessful">0</span>
+                </div>
+                <div class="stat-box failed">
+                    <span class="label">Mints **FAILED**:</span>
+                    <span class="value" id="standardFailed">0</span>
+                </div>
+                <p id="standardMessage" class="message"></p>
+            </div>
+
+            <div class="bot-card raiku-bot">
+                <h3>Raiku Guaranteed Bot 🐉</h3>
+                <p class="description">Uses Ahead-of-Time scheduling for guaranteed block inclusion.</p>
+                <div class="stat-box">
+                    <span class="label">Mints Submitted:</span>
+                    <span class="value" id="raikuSubmitted">0</span>
+                </div>
+                <div class="stat-box success">
+                    <span class="label">Mints **SUCCESSFUL**:</span>
+                    <span class="value" id="raikuSuccessful">0</span>
+                </div>
+                <div class="stat-box failed">
+                    <span class="label">Mints **FAILED**:</span>
+                    <span class="value" id="raikuFailed">0</span>
+                </div>
+                <p id="raikuMessage" class="message"></p>
+            </div>
+        </div>
+
+        <div id="final-summary" class="summary-box"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
