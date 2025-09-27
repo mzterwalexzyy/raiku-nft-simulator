@@ -3,10 +3,9 @@ body {
     background-color: #121212; /* Dark background */
     color: #e0e0e0; /* Light text */
     margin: 0;
-    padding: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    /* Crucial Fix: Use standard block display, remove horizontal centering */
+    padding: 20px 0; /* Keeps top/bottom padding, removes left/right for better flow */
+    display: block; /* Ensures content flows from top to bottom normally */
     min-height: 100vh;
 }
 
@@ -16,7 +15,8 @@ body {
     border-radius: 12px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
     max-width: 1200px;
-    width: 100%;
+    width: 90%; /* Use 90% width for better centering */
+    margin: 0 auto; /* Crucial Fix: Centers the container horizontally */
 }
 
 header {
@@ -263,11 +263,17 @@ h1 {
 /* --- Footer Styling --- */
 .site-footer {
     text-align: center;
-    margin-top: 40px;
-    padding: 20px 0;
+    /* Important Fix: Added margin-top to separate footer from main content */
+    margin-top: 40px; 
+    padding: 40px 0; /* Increased padding top/bottom */
     border-top: 1px solid #333; /* Light gray border at the top */
     font-size: 0.9em;
     color: #999; /* Lighter text for the footer */
+    /* Ensure the footer also centers horizontally */
+    max-width: 1200px;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .site-footer h3 {
