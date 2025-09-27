@@ -5,13 +5,7 @@ const STANDARD_FAIL_RATE = 0.30;
 const RAIKU_FAIL_RATE = 0.00; 
 
 // --- State and DOM Element Selection ---
-// ... (existing variables)
-// NEW MODAL ELEMENTS
-const welcomeModal = document.getElementById('welcomeModal');
-const modalCloseButton = document.getElementById('modalCloseButton');
-const closeSpan = document.querySelector('.close-btn');
-// -------------------------
-let isConnected = false; // State variable to track connection
+let isConnected = false; 
 const connectWalletBtn = document.getElementById('connectWalletBtn');
 const runSimulationBtn = document.getElementById('runSimulationBtn');
 const walletStatus = document.getElementById('walletStatus');
@@ -34,6 +28,11 @@ const raikuSubmitted = document.getElementById('raikuSubmitted');
 const raikuSuccessful = document.getElementById('raikuSuccessful');
 const raikuFailed = document.getElementById('raikuFailed');
 const raikuMessage = document.getElementById('raikuMessage');
+
+// --- MODAL ELEMENTS (CORRECTED SELECTORS) ---
+const welcomeModal = document.getElementById('welcomeModal');
+const closeModalBtn = document.getElementById('closeModalBtn'); // <-- USING THE ID FROM YOUR HTML
+// ------------------------------------------
 
 // --- Helper Functions ---
 
@@ -65,15 +64,14 @@ function resetSimulation() {
 function disconnectWallet() {
     isConnected = false;
     connectWalletBtn.textContent = 'Connect Wallet';
-    // Remove the disconnect styling (red button)
     connectWalletBtn.classList.remove('disconnect-btn'); 
 
     walletStatus.textContent = 'Status: Disconnected';
     walletStatus.classList.remove('connected');
     walletAddress.textContent = '';
-    runSimulationBtn.disabled = true; // Disable simulation on disconnect
+    runSimulationBtn.disabled = true;
     connectWalletBtn.disabled = false;
-    resetSimulation(); // Clear results when disconnecting
+    resetSimulation();
     console.log("Wallet Disconnected.");
 }
 
@@ -81,71 +79,61 @@ function disconnectWallet() {
 function simulateMint(isRaiku, failRate, submittedElement, successfulElement, failedElement, messageElement) {
     return new Promise(resolve => {
         
-        const isSuccessful = Math.random() > failRate; // True if random number is greater than failRate
+        const isSuccessful = Math.random() > failRate;
         
-        // Update submitted count immediately
         let submitted = parseInt(submittedElement.textContent) + 1;
         submittedElement.textContent = submitted;
 
-        // Simulate network delay before results (visual effect)
         setTimeout(() => {
             if (isSuccessful) {
-                // SUCCESS (Guaranteed Execution)
                 let successCount = parseInt(successfulElement.textContent) + 1;
                 successfulElement.textContent = successCount;
                 messageElement.textContent = isRaiku ? "Success: Raiku guaranteed inclusion!" : "Success: Standard RPC got lucky.";
-                messageElement.style.color = '#7ed3d7'; // Green
+                messageElement.style.color = '#7ed3d7';
             } else {
-                // FAILURE (Dropped Transaction)
                 let failedCount = parseInt(failedElement.textContent) + 1;
                 failedElement.textContent = failedCount;
                 messageElement.textContent = isRaiku ? 
                     "ERROR: Raiku Infrastructure FAILED (Extremely Rare)" : 
                     "ERROR: Transaction Dropped (Standard RPC Congestion)";
-                messageElement.style.color = '#d0021b'; // Red
+                messageElement.style.color = '#d0021b';
             }
             resolve(isSuccessful);
-        }, Math.random() * 500 + 100); // 100ms to 600ms simulated time
+        }, Math.random() * 500 + 100);
     });
 }
 
 // 3. Wallet Connection/Disconnection Handler
 connectWalletBtn.addEventListener('click', () => {
     if (isConnected) {
-        // If currently connected, disconnect
         disconnectWallet();
     } else {
-        // If currently disconnected, connect
         const address = generateRandomAddress();
         isConnected = true;
         connectWalletBtn.textContent = 'Disconnect Wallet';
-        // Add the disconnect styling (red button)
         connectWalletBtn.classList.add('disconnect-btn'); 
         
         walletStatus.textContent = 'Status: Connected';
         walletStatus.classList.add('connected');
         walletAddress.textContent = `Wallet: ${address.substring(0, 4)}...${address.substring(address.length - 4)}`;
-        runSimulationBtn.disabled = false; // Enable simulation on connect
-        connectWalletBtn.disabled = false; // Keep button enabled for disconnect
+        runSimulationBtn.disabled = false;
+        connectWalletBtn.disabled = false;
         
         console.log("Wallet Connected:", address);
     }
 });
 
-// 4. Run Simulation Button Handler (UPDATED TO USE USER INPUT)
+// 4. Run Simulation Button Handler
 runSimulationBtn.addEventListener('click', async () => {
     resetSimulation();
     runSimulationBtn.disabled = true;
     
-    // Get the user-defined mint quantity
     const userMintQuantity = parseInt(mintQuantityInput.value) || 10;
     
     let standardSuccesses = 0;
     let raikuSuccesses = 0;
 
-    // Loop through the user's defined mint quantity
     for (let i = 0; i < userMintQuantity; i++) {
-        // Run both bots in parallel for a single mint attempt
         const [standardResult, raikuResult] = await Promise.all([
             simulateMint(false, STANDARD_FAIL_RATE, standardSubmitted, standardSuccessful, standardFailed, standardMessage),
             simulateMint(true, RAIKU_FAIL_RATE, raikuSubmitted, raikuSuccessful, raikuFailed, raikuMessage)
@@ -155,7 +143,7 @@ runSimulationBtn.addEventListener('click', async () => {
         if (raikuResult) raikuSuccesses++;
     }
 
-    // Final Summary (UPDATED TO REFERENCE userMintQuantity)
+    // Final Summary
     let summaryText = '';
     if (raikuSuccesses > standardSuccesses) {
         summaryText = `Raiku wins! ${raikuSuccesses}/${userMintQuantity} successful mints vs. Standard's ${standardSuccesses}/${userMintQuantity}. Predictability is key.`;
@@ -168,43 +156,48 @@ runSimulationBtn.addEventListener('click', async () => {
     }
     
     finalSummary.textContent = summaryText;
-    runSimulationBtn.disabled = false; // Allow re-running
+    runSimulationBtn.disabled = false;
 });
 
-// 5. Input Field Listener (NEW FUNCTION)
+// 5. Input Field Listener
 mintQuantityInput.addEventListener('input', () => {
     let value = parseInt(mintQuantityInput.value);
-    // Ensure value is within bounds (1-1000)
     if (isNaN(value) || value < 1) {
         value = 1;
     } else if (value > 1000) {
         value = 1000;
     }
-    // Set the input value and update the display text in the heading
     mintQuantityInput.value = value;
     mintQuantityDisplay.textContent = value;
 });
-// --- MODAL DISPLAY LOGIC ---
+
+// --- MODAL DISPLAY LOGIC (FIXED) ---
 
 // Function to close the modal
 function closeModal() {
-    welcomeModal.style.display = 'none';
+    if (welcomeModal) {
+        welcomeModal.style.display = 'none';
+    }
 }
 
-// Add event listeners to close buttons
-modalCloseButton.addEventListener('click', closeModal);
-closeSpan.addEventListener('click', closeModal);
+// Add event listener to the correct close button ID
+if (closeModalBtn) {
+    closeModalBtn.addEventListener('click', closeModal);
+}
 
 // Show the modal when the page loads
 window.onload = function() {
-    welcomeModal.style.display = 'block';
+    if (welcomeModal) {
+        welcomeModal.style.display = 'block';
+    }
 }
 
 // Close the modal if the user clicks anywhere outside of the modal content
 window.addEventListener('click', (event) => {
-    if (event.target == welcomeModal) {
+    if (event.target === welcomeModal) {
         closeModal();
     }
 });
+
 // --- Initial Setup (Disable simulation until wallet connects) ---
 runSimulationBtn.disabled = true;
